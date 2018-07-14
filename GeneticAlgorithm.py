@@ -5,9 +5,6 @@ Created on Sat Jul 14 02:02:42 2018
 @author: Leo
 """
 
-#I'm basically trying to follow the following image: 
-#https://www.google.com.br/url?sa=i&source=imgres&cd=&cad=rja&uact=8&ved=2ahUKEwid0KSf9p7cAhWBxFkKHR6MAFIQjRx6BAgBEAU&url=https%3A%2F%2Fwww.neuraldesigner.com%2Fblog%2Fgenetic_algorithms_for_feature_selection&psig=AOvVaw3hjdIumyKaR7iMozVfbBDr&ust=1531669117546438
-
 import numpy as np
 import operator
 #GA variables
