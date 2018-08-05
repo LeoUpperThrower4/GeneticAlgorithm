@@ -7,14 +7,15 @@ Created on Sat Jul 14 02:02:42 2018
 
 import numpy as np
 import operator
+import matplotlib.pyplot as plt
+
 #GA variables
 generations = 100
-pop_size = 10
-target = 900
+pop_size = 100
+target = 10
 mutate_prob = 0.1
 
 best_of_each_gen = []
-
 
 class Individual:
     gene = []
@@ -33,7 +34,7 @@ def Initialization(size):
     for _ in range(size):
         ind = Individual()
         ind.gene = np.random.randint(0, 101, 10)
-        ind.fitness = abs(target - sum(ind.gene))
+        ind.fitness = np.sum(ind.gene)
         initial_population.append(ind)
 
     initial_population = sorted(initial_population, key=operator.attrgetter('fitness'))
@@ -41,10 +42,9 @@ def Initialization(size):
 
 
 def Evaluation(pop):
-    #Here I set the individual's fitness
+    #individual's fitness
     for i in pop:
-        i.fitness = abs(target - sum(i.gene))
-        population.fitness_history.append(i.fitness)
+        i.fitness = (sum(i.gene))
     return pop
 
 
@@ -79,6 +79,9 @@ def TPCrossover(pop):
     pop = offspring
     return pop
 
+def Visualization(x, y):
+    plt.scatter(x,y)
+    plt.show()
 
 if __name__ == "__main__":
 
@@ -86,9 +89,24 @@ if __name__ == "__main__":
     population.members = Initialization(pop_size)
 
     for _ in range(generations):
+        
         population.members = Evaluation(population.members)
         population.members = Selection(population.members)
         population.members = TPCrossover(population.members)
-        best_of_each_gen.append(population.members[0])
-
-    population_visualize = sorted(population.members, key=operator.attrgetter('fitness'))
+        best_of_each_gen.append(population.members[-1])
+    
+    
+    #Visualization
+    population.fitness_history = []
+    for ind in population.members:
+        population.fitness_history.append(ind.fitness)    
+    x = np.arange(0, len(population.members), 1, dtype=int)
+    Visualization(x, population.fitness_history)
+    
+    
+    beg = []
+    for i in sorted(best_of_each_gen, key=operator.attrgetter('fitness')):
+        beg.append(i.fitness)
+    
+    x = np.arange(0, generations, 1, dtype=int)
+    Visualization(x, beg)
